@@ -1,0 +1,101 @@
+package demo1;
+import java.util.Random;
+import java.util.Scanner;
+
+public class NumberGuessingGame {
+
+    static Scanner scanner = new Scanner(System.in);
+    static int score = 0;
+    static int roundsPlayed = 0;
+
+    public static void main(String[] args) {
+        int choice;
+
+        do {
+            System.out.println("\n========= NUMBER GUESSING GAME =========");
+            System.out.println("1. Start New Game");
+            System.out.println("2. View Instructions");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    playGame();
+                    break;
+                case 2:
+                    showInstructions();
+                    break;
+                case 3:
+                    System.out.println("Thank you for playing! Final Score: " + score + " | Rounds Played: " + roundsPlayed);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please select again.");
+            }
+        } while (choice != 3);
+    }
+
+    static void showInstructions() {
+        System.out.println("\n--- Instructions ---");
+        System.out.println("1. A random number will be generated between 1 and 100.");
+        System.out.println("2. You have 5 attempts to guess the number.");
+        System.out.println("3. After each guess, you will be told if your guess is too high or too low.");
+        System.out.println("4. Points are awarded based on how quickly you guess the number.");
+        System.out.println("   - +10 points if guessed within 3 tries");
+        System.out.println("   - +5 points if guessed in 4-5 tries");
+        System.out.println("   - 0 points if you don't guess correctly");
+        System.out.println("5. You can play multiple rounds and your total score will be shown.");
+        System.out.println("----------------------\n");
+    }
+
+    static void playGame() {
+        Random random = new Random();
+        int numberToGuess = random.nextInt(100) + 1;
+        int maxAttempts = 5;
+        int attempt = 0;
+        boolean isGuessed = false;
+
+        System.out.println("\n🎯 New Round Started! Guess the number between 1 and 100.");
+
+        while (attempt < maxAttempts) {
+            System.out.print("Attempt " + (attempt + 1) + ": Enter your guess: ");
+            int guess = scanner.nextInt();
+            attempt++;
+
+            if (guess == numberToGuess) {
+                System.out.println("🎉 Correct! You've guessed the number in " + attempt + " attempt(s).");
+
+                if (attempt <= 3) {
+                    score += 10;
+                    System.out.println("You earned +10 points!");
+                } else {
+                    score += 5;
+                    System.out.println("You earned +5 points!");
+                }
+
+                isGuessed = true;
+                break;
+            } else if (guess < numberToGuess) {
+                System.out.println("Too low! Try again.");
+            } else {
+                System.out.println("Too high! Try again.");
+            }
+        }
+
+        if (!isGuessed) {
+            System.out.println("❌ Sorry! You've used all attempts. The correct number was: " + numberToGuess);
+        }
+
+        roundsPlayed++;
+        System.out.println("🏅 Your current score: " + score);
+        System.out.println("🔁 Do you want to play another round? (yes/no): ");
+        scanner.nextLine(); // clear newline
+        String again = scanner.nextLine();
+
+        if (again.equalsIgnoreCase("yes")) {
+            playGame(); // start next round
+        } else {
+            System.out.println("Returning to main menu...");
+        }
+    }
+}
