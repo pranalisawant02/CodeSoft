@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+public class SimpleCurrencyConverter {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Display supported currencies
+        System.out.println("Supported Currencies: USD, EUR, INR, JPY");
+
+        // Input
+        System.out.print("Enter base currency: ");
+        String base = scanner.next().toUpperCase();
+
+        System.out.print("Enter target currency: ");
+        String target = scanner.next().toUpperCase();
+
+        System.out.print("Enter amount: ");
+        double amount = scanner.nextDouble();
+
+        // Sample conversion rates relative to 1 USD
+        double usdToInr = 83.0;
+        double usdToEur = 0.92;
+        double usdToJpy = 146.5;
+
+        // Convert base to USD
+        double amountInUsd;
+        switch (base) {
+            case "USD":
+                amountInUsd = amount;
+                break;
+            case "INR":
+                amountInUsd = amount / usdToInr;
+                break;
+            case "EUR":
+                amountInUsd = amount / usdToEur;
+                break;
+            case "JPY":
+                amountInUsd = amount / usdToJpy;
+                break;
+            default:
+                System.out.println("Unsupported base currency.");
+                return;
+        }
+
+        // Convert USD to target currency
+        double convertedAmount;
+        switch (target) {
+            case "USD":
+                convertedAmount = amountInUsd;
+                break;
+            case "INR":
+                convertedAmount = amountInUsd * usdToInr;
+                break;
+            case "EUR":
+                convertedAmount = amountInUsd * usdToEur;
+                break;
+            case "JPY":
+                convertedAmount = amountInUsd * usdToJpy;
+                break;
+            default:
+                System.out.println("Unsupported target currency.");
+                return;
+        }
+
+        // Output
+        System.out.printf("Converted Amount: %.2f %s\n", convertedAmount, target);
+        scanner.close();
+    }
+}
