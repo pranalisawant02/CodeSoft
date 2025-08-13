@@ -1,0 +1,97 @@
+package demo01;
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        StudentManagementSystem sms = new StudentManagementSystem();
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n===== Student Management System =====");
+            System.out.println("1. Add Student");
+            System.out.println("2. Remove Student");
+            System.out.println("3. Search Student");
+            System.out.println("4. Display All Students");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter name: ");
+                    String name = sc.nextLine().trim();
+                    if (name.isEmpty()) {
+                        System.out.println("Name cannot be empty!");
+                        break;
+                    }
+
+                    System.out.print("Enter roll number: ");
+                    String rollNo = sc.nextLine().trim();
+                    if (rollNo.isEmpty()) {
+                        System.out.println("Roll number cannot be empty!");
+                        break;
+                    }
+
+                    System.out.print("Enter grade: ");
+                    String grade = sc.nextLine().trim();
+                    if (grade.isEmpty()) {
+                        System.out.println("Grade cannot be empty!");
+                        break;
+                    }
+
+                    System.out.print("Enter age: ");
+                    int age;
+                    try {
+                        age = Integer.parseInt(sc.nextLine().trim());
+                        if (age <= 0) {
+                            System.out.println("Age must be positive!");
+                            break;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid age!");
+                        break;
+                    }
+
+                    sms.addStudent(new Student(name, rollNo, grade, age));
+                    System.out.println("Student added successfully!");
+                    break;
+
+                case "2":
+                    System.out.print("Enter roll number to remove: ");
+                    String rollToRemove = sc.nextLine().trim();
+                    if (sms.removeStudent(rollToRemove)) {
+                        System.out.println("Student removed successfully!");
+                    } else {
+                        System.out.println("Student not found!");
+                    }
+                    break;
+
+                case "3":
+                    System.out.print("Enter roll number to search: ");
+                    String rollToSearch = sc.nextLine().trim();
+                    Student found = sms.searchStudent(rollToSearch);
+                    if (found != null) {
+                        System.out.println("Student found: " + found);
+                    } else {
+                        System.out.println("Student not found!");
+                    }
+                    break;
+
+                case "4":
+                    sms.displayAllStudents();
+                    break;
+
+                case "5":
+                    System.out.println("Exiting... Goodbye!");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice! Try again.");
+            }
+        }
+    }
+}
+
